@@ -1,0 +1,20 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2023. MageCloud.  All rights reserved.
+  ~ @author: Volodymyr Hryvinskyi <mailto:volodymyr@hryvinskyi.com>
+  -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <hryvinskyi_bot_blocker>
+            <general>
+                <enabled>1</enabled>
+                <threshold>500</threshold>
+                <timeframe>300</timeframe>
+                <storage_method>redis</storage_method>
+                <whitelist>192.168.1.1,192.168.1.2</whitelist>
+            </general>
+        </hryvinskyi_bot_blocker>
+    </default>
+</config>

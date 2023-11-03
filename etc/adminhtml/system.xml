@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2023. MageCloud.  All rights reserved.
+  ~ @author: Volodymyr Hryvinskyi <mailto:volodymyr@hryvinskyi.com>
+  -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Config:etc/system_file.xsd">
+    <system>
+        <section id="hryvinskyi_bot_blocker">
+            <class>separator-top</class>
+            <label>Bot Blocker</label>
+            <tab>hryvinskyi</tab>
+            <group id="general" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                <label>General</label>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="storage_method" translate="label" type="select" sortOrder="20" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Storage Method</label>
+                    <source_model>Custom\BotBlocker\Model\Config\Source\StorageMethod</source_model>
+                </field>
+                <field id="threshold" translate="label" type="text" sortOrder="30" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Threshold</label>
+                    <comment>Set the maximum number of requests an IP address can make within a specified timeframe before it is blocked.</comment>
+                </field>
+
+                <field id="timeframe" translate="label" type="text" sortOrder="40" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Timeframe</label>
+                    <comment>Define the time window during which the threshold count is calculated (in seconds).</comment>
+                </field>
+                <field id="whitelist" translate="label" type="textarea" sortOrder="50" showInDefault="1" showInWebsite="1" showInStore="1">
+                    <label>Whitelist</label>
+                    <comment>Specify a list of IP addresses that should be exempt from the blocking rules (comma-separated).</comment>
+                </field>
+            </group>
+        </section>
+    </system>
+</config>

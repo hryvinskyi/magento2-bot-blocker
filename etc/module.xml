@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2023. MageCloud.  All rights reserved.
+  ~ @author: Volodymyr Hryvinskyi <mailto:volodymyr@hryvinskyi.com>
+  -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Module/etc/module.xsd">
+    <module name="Hryvinskyi_BotBlocker">
+        <sequence>
+            <module name="Hryvinskyi_Base"/>
+            <module name="Hryvinskyi_Logger"/>
+        </sequence>
+    </module>
+</config>

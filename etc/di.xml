@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2023. MageCloud.  All rights reserved.
+  ~ @author: Volodymyr Hryvinskyi <mailto:volodymyr@hryvinskyi.com>
+  -->
+
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Hryvinskyi\BotBlocker\Model\IpStorageInterface"
+                type="Hryvinskyi\BotBlocker\Model\IpStorage"/>
+    <preference for="Hryvinskyi\BotBlocker\Model\BanBadIpInterface"
+                type="Hryvinskyi\BotBlocker\Model\BanBadIp"/>
+
+    <type name="Hryvinskyi\BotBlocker\Model\HandleStorage">
+        <arguments>
+            <argument name="handlers" xsi:type="array">
+                <item name="mysql" xsi:type="object">Hryvinskyi\BotBlocker\Model\HandleStorage\MySQL</item>
+                <item name="redis" xsi:type="object">Hryvinskyi\BotBlocker\Model\HandleStorage\Redis</item>
+            </argument>
+        </arguments>
+    </type>
+    <type name="Hryvinskyi\BotBlocker\Model\HandleStorage\Redis">
+        <arguments>
+            <!-- We use serialisation instead of json because serialisation is faster -->
+            <argument name="serializer" xsi:type="object">Magento\Framework\Serialize\Serializer\Serialize</argument>
+        </arguments>
+    </type>
+</config>

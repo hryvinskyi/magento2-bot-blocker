@@ -1,0 +1,28 @@
+{
+  "name": "hryvinskyi/module-bot-blocker",
+  "version": "1.0.0",
+  "description": "N/A",
+  "type": "magento2-module",
+  "require": {
+    "magento/framework": "*",
+    "hryvinskyi/magento2-base": "2.1.*",
+    "hryvinskyi/magento2-logger": "1.1.*"
+  },
+  "license": [
+    "MIT"
+  ],
+  "authors": [
+    {
+      "name": "Volodymyr Hryvinskyi",
+      "email": "volodymyr@hryvinskyi.com"
+    }
+  ],
+  "autoload": {
+    "files": [
+      "registration.php"
+    ],
+    "psr-4": {
+      "Hryvinskyi\\BotBlocker\\": ""
+    }
+  }
+}

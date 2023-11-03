@@ -1,0 +1,36 @@
+<?xml version="1.0"?>
+<!--
+  ~ Copyright (c) 2023. MageCloud.  All rights reserved.
+  ~ @author: Volodymyr Hryvinskyi <mailto:volodymyr@hryvinskyi.com>
+  -->
+
+<schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
+    <table name="hryvinskyi_bot_blocker_data" resource="default" engine="innodb" comment="">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Primary key"/>
+        <column xsi:type="varbinary" name="ip" length="16" nullable="false" comment="Binary IP"/>
+        <column xsi:type="int" name="request_count" padding="10" unsigned="true" nullable="false" identity="false" comment="Request Count"/>
+        <column xsi:type="int" name="first_request_time" padding="10" unsigned="true" nullable="false" identity="false" comment="First Request Time"/>
+        <column xsi:type="datetime" name="updated_at" on_update="true" nullable="true" default="CURRENT_TIMESTAMP" comment="Update time"/>
+        
+        <index referenceId="PRIMARY" indexType="btree">
+            <column name="id"/>
+        </index>
+        <index referenceId="HRYVINSKYI_BOT_BLOCKER_DATA_IP" indexType="btree">
+            <column name="ip"/>
+        </index>
+    </table>
+    <table name="hryvinskyi_bot_blocker_bans" resource="default" engine="innodb" comment="">
+        <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Primary key"/>
+        <column xsi:type="varbinary" name="ip" length="16" nullable="false" comment="Binary IP"/>
+        <column xsi:type="int" name="bans_count" padding="10" unsigned="true" nullable="false" identity="false" comment="Ban Count"/>
+        <column xsi:type="int" name="ban_expiration" padding="10" unsigned="true" nullable="false" identity="false" comment="Ban Expiration Time"/>
+
+        <index referenceId="PRIMARY" indexType="btree">
+            <column name="id"/>
+        </index>
+        <index referenceId="HRYVINSKYI_BOT_BLOCKER_BANS_IP" indexType="btree">
+            <column name="ip"/>
+        </index>
+    </table>
+</schema>

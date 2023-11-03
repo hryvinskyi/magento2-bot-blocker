@@ -1,0 +1,33 @@
+{
+  "hryvinskyi_bot_blocker_data": {
+    "column": {
+      "id": true,
+      "ip": true,
+      "request_count": true,
+      "first_request_time": true,
+      "updated_at": true
+    },
+    "index": {
+      "HRYVINSKYI_BOT_BLOCKER_DATA_ID": true,
+      "HRYVINSKYI_BOT_BLOCKER_DATA_IP": true
+    },
+    "constraint": {
+      "PRIMARY": true
+    }
+  },
+  "hryvinskyi_bot_blocker_bans": {
+    "column": {
+      "id": true,
+      "ip": true,
+      "bans_count": true,
+      "ban_expiration": true
+    },
+    "index": {
+      "HRYVINSKYI_BOT_BLOCKER_BANS_ID": true,
+      "HRYVINSKYI_BOT_BLOCKER_BANS_IP": true
+    },
+    "constraint": {
+      "PRIMARY": true
+    }
+  }
+}
