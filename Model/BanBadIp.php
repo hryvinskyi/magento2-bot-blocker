@@ -47,7 +47,7 @@ class BanBadIp implements BanBadIpInterface
             $connection->insert($table, $data);
         } else {
             $data = [
-                'ip_address' => $ip,
+                'ip' => $this->ipStorage->pack($ip),
                 'ban_expiration' => $result['bans_count'] * $banTime,
                 'bans_count' => $result['bans_count'] + 1
             ];
