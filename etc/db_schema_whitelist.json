@@ -20,7 +20,8 @@
       "id": true,
       "ip": true,
       "bans_count": true,
-      "ban_expiration": true
+      "ban_expiration": true,
+      "user_agent": true
     },
     "index": {
       "HRYVINSKYI_BOT_BLOCKER_BANS_ID": true,
