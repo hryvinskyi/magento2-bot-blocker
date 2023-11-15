@@ -25,6 +25,7 @@
         <column xsi:type="varbinary" name="ip" length="16" nullable="false" comment="Binary IP"/>
         <column xsi:type="int" name="bans_count" padding="10" unsigned="true" nullable="false" identity="false" comment="Ban Count"/>
         <column xsi:type="int" name="ban_expiration" padding="10" unsigned="true" nullable="false" identity="false" comment="Ban Expiration Time"/>
+        <column xsi:type="text" name="user_agent" nullable="true" comment="User Agent"/>
 
         <index referenceId="PRIMARY" indexType="btree">
             <column name="id"/>
