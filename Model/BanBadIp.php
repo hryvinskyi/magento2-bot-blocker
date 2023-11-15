@@ -27,7 +27,6 @@ class BanBadIp implements BanBadIpInterface
      */
     public function banIp(string $ip, int $banTime): void
     {
-        $banTime = time() + 900; // 900 seconds = 15 minutes
         $connection = $this->db->getConnection();
         $table = $connection->getTableName('hryvinskyi_bot_blocker_bans');
 
@@ -41,15 +40,17 @@ class BanBadIp implements BanBadIpInterface
             $data = [
                 'ip' => $this->ipStorage->pack($ip),
                 'bans_count' => 1,
-                'ban_expiration' => $banTime
+                'ban_expiration' => time() + $banTime,
+                'user_agent' => $_SERVER['HTTP_USER_AGENT']
             ];
 
             $connection->insert($table, $data);
         } else {
             $data = [
                 'ip' => $this->ipStorage->pack($ip),
-                'ban_expiration' => $result['bans_count'] * $banTime,
-                'bans_count' => $result['bans_count'] + 1
+                'ban_expiration' => time() + ($result['bans_count'] * $banTime),
+                'bans_count' => $result['bans_count'] + 1,
+                'user_agent' => $_SERVER['HTTP_USER_AGENT']
             ];
 
             $where = ['ip = ?' => new Expression('INET6_ATON(\'' . $ip . '\')')];
