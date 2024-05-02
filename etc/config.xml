@@ -12,6 +12,7 @@
                 <enabled>1</enabled>
                 <threshold>500</threshold>
                 <timeframe>300</timeframe>
+                <block_time>900</block_time>
                 <storage_method>redis</storage_method>
                 <whitelist>192.168.1.1,192.168.1.2</whitelist>
             </general>

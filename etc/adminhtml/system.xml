@@ -22,16 +22,26 @@
                     <label>Storage Method</label>
                     <source_model>Hryvinskyi\BotBlocker\Model\Config\Source\StorageMethod</source_model>
                 </field>
-                <field id="threshold" translate="label" type="text" sortOrder="30" showInDefault="1">
+                <field id="threshold" translate="label,comment" type="text" sortOrder="30" showInDefault="1">
                     <label>Threshold</label>
                     <comment>Set the maximum number of requests an IP address can make within a specified timeframe before it is blocked.</comment>
                 </field>
-
-                <field id="timeframe" translate="label" type="text" sortOrder="40" showInDefault="1">
+                <field id="timeframe" translate="label,comment" type="text" sortOrder="40" showInDefault="1">
                     <label>Timeframe</label>
                     <comment>Define the time window during which the threshold count is calculated (in seconds).</comment>
                 </field>
-                <field id="whitelist" translate="label" type="textarea" sortOrder="50" showInDefault="1">
+                <field id="block_time" translate="label,comment" type="text" sortOrder="50" showInDefault="1">
+                    <label>Block Time</label>
+                    <comment>Set the time an IP address is blocked for after reaching the threshold (in seconds).</comment>
+                </field>
+                <field id="user_agent_override" translate="label,comment" sortOrder="50" showInDefault="1">
+                    <label>Override limits by User Agent</label>
+                    <comment>Specify a list of user agents to override the Threshold and Timeframe limits for them</comment>
+                    <frontend_model>Hryvinskyi\BotBlocker\Block\Adminhtml\Form\Field\UserAgent</frontend_model>
+                    <backend_model>Magento\Config\Model\Config\Backend\Serialized\ArraySerialized</backend_model>
+                </field>
+
+                <field id="whitelist" translate="label,comment" type="textarea" sortOrder="60" showInDefault="1">
                     <label>Whitelist</label>
                     <comment>Specify a list of IP addresses that should be exempt from the blocking rules (comma-separated).</comment>
                 </field>

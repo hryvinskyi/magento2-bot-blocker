@@ -29,14 +29,9 @@ class BanBadIp implements BanBadIpInterface
     {
         $connection = $this->db->getConnection();
         $table = $connection->getTableName('hryvinskyi_bot_blocker_bans');
+        $result = $this->selectBanByIp($ip);
 
-        $select = $connection->select()
-            ->from($table)
-            ->where('ip = ?', new Expression('INET6_ATON(\'' . $ip . '\')'));
-
-        $result = $connection->fetchRow($select);
-
-        if ($result === false) {
+        if ($result === null) {
             $data = [
                 'ip' => $this->ipStorage->pack($ip),
                 'bans_count' => 1,
@@ -63,6 +58,21 @@ class BanBadIp implements BanBadIpInterface
      */
     public function checkIsBanned(string $ip): bool
     {
+        $result = $this->selectBanByIp($ip);
+
+        if ($result === null) {
+            return false;
+        }
+
+        if ($result['ban_expiration'] > time()) {
+            return true;
+        }
+
+        return false;
+    }
+
+    public function selectBanByIp(string $ip): ?array
+    {
         $connection = $this->db->getConnection();
         $table = $connection->getTableName('hryvinskyi_bot_blocker_bans');
 
@@ -73,13 +83,9 @@ class BanBadIp implements BanBadIpInterface
         $result = $connection->fetchRow($select);
 
         if ($result === false) {
-            return false;
+            return null;
         }
 
-        if ($result['ban_expiration'] > time()) {
-            return true;
-        }
-
-        return false;
+        return $result;
     }
 }

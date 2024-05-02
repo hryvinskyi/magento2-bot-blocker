@@ -6,10 +6,37 @@
 
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:ObjectManager/etc/config.xsd">
+    <preference for="Hryvinskyi\BotBlocker\Model\ConfigInterface"
+                type="Hryvinskyi\BotBlocker\Model\Config"/>
     <preference for="Hryvinskyi\BotBlocker\Model\IpStorageInterface"
                 type="Hryvinskyi\BotBlocker\Model\IpStorage"/>
     <preference for="Hryvinskyi\BotBlocker\Model\BanBadIpInterface"
                 type="Hryvinskyi\BotBlocker\Model\BanBadIp"/>
+
+    <type name="Hryvinskyi\BotBlocker\Model\Config">
+        <arguments>
+            <argument name="serializer" xsi:type="object">Magento\Framework\Serialize\Serializer\Json</argument>
+        </arguments>
+    </type>
+
+    <type name="Hryvinskyi\BotBlocker\Model\Validator\BotBlockerValidator">
+        <arguments>
+            <argument name="validators" xsi:type="array">
+                <item name="is_white_list" xsi:type="array">
+                    <item name="object" xsi:type="object">Hryvinskyi\BotBlocker\Model\Validator\IsWhitelistedValidator</item>
+                    <item name="sortOrder" xsi:type="string">10</item>
+                </item>
+                <item name="is_banned" xsi:type="array">
+                    <item name="object" xsi:type="object">Hryvinskyi\BotBlocker\Model\Validator\IsBannedValidator</item>
+                    <item name="sortOrder" xsi:type="string">100</item>
+                </item>
+                <item name="threshold" xsi:type="array">
+                    <item name="object" xsi:type="object">Hryvinskyi\BotBlocker\Model\Validator\ThresholdValidator</item>
+                    <item name="sortOrder" xsi:type="string">200</item>
+                </item>
+            </argument>
+        </arguments>
+    </type>
 
     <type name="Hryvinskyi\BotBlocker\Model\HandleStorage">
         <arguments>

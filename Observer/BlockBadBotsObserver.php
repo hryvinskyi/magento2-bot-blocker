@@ -6,9 +6,8 @@
 
 namespace Hryvinskyi\BotBlocker\Observer;
 
-use Hryvinskyi\BotBlocker\Model\BanBadIpInterface;
-use Hryvinskyi\BotBlocker\Model\Config;
-use Hryvinskyi\BotBlocker\Model\HandleStorage;
+use Hryvinskyi\BotBlocker\Model\ConfigInterface;
+use Hryvinskyi\BotBlocker\Model\Validator\BotBlockerValidator;
 use Magento\Framework\Event\ObserverInterface;
 use Magento\Framework\Event\Observer;
 
@@ -17,18 +16,19 @@ use Magento\Framework\Event\Observer;
  */
 class BlockBadBotsObserver implements ObserverInterface
 {
-    private Config $config;
-    private HandleStorage $handleStorage;
-    private BanBadIpInterface $banBadIp;
+    private ConfigInterface $config;
+    private BotBlockerValidator $botBlockerValidator;
 
+    /**
+     * @param ConfigInterface $config
+     * @param BotBlockerValidator $botBlockerValidator
+     */
     public function __construct(
-        Config $config,
-        HandleStorage $handleStorage,
-        BanBadIpInterface $banBadIp
+        ConfigInterface $config,
+        BotBlockerValidator $botBlockerValidator
     ) {
         $this->config = $config;
-        $this->handleStorage = $handleStorage;
-        $this->banBadIp = $banBadIp;
+        $this->botBlockerValidator = $botBlockerValidator;
     }
 
     /**
@@ -40,27 +40,13 @@ class BlockBadBotsObserver implements ObserverInterface
      */
     public function execute(Observer $observer): void
     {
-        $ipAddress = $_SERVER['REMOTE_ADDR'];
-        $threshold = $this->config->getThreshold();
-        $timeframe = $this->config->getTimeframe();
-        $whitelist = $this->config->getWhitelist();
-        $storageMethod = $this->config->getStorageMethod();
-
-        // Check if module disabled or IP address is in the whitelist
-        if ($this->config->isEnabled() === false || in_array($ipAddress, $whitelist, true)) {
+        if ($this->config->isEnabled() === false) {
             return;
         }
 
-        if ($this->banBadIp->checkIsBanned($ipAddress)) {
-            header('HTTP/1.0 403 Forbidden');
-            exit();
-        }
-
-        $count = $this->handleStorage->execute($storageMethod, $ipAddress, $threshold, $timeframe);
-
-        if ($count > $threshold) {
-            $this->banBadIp->banIp($ipAddress, 900);
-            header('HTTP/1.0 403 Forbidden');
+        if ($this->botBlockerValidator->validate($_SERVER['REMOTE_ADDR'])) {
+            // Handle HTTP response in a separate class
+            header('HTTP/1.0 429 Too Many Requests');
             exit();
         }
     }
