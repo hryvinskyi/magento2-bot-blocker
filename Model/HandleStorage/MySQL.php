@@ -28,7 +28,7 @@ class MySQL implements HandlerInterface
     public function execute(string $ip, int $threshold, int $timeframe): int
     {
         $connection = $this->resourceConnection->getConnection();
-        $table = $connection->getTableName('hryvinskyi_bot_blocker_data');
+        $table = $this->resourceConnection->getTableName('hryvinskyi_bot_blocker_data');
 
         $now = time();
 
