@@ -28,7 +28,7 @@ class BanBadIp implements BanBadIpInterface
     public function banIp(string $ip, int $banTime): void
     {
         $connection = $this->db->getConnection();
-        $table = $connection->getTableName('hryvinskyi_bot_blocker_bans');
+        $table = $this->db->getTableName('hryvinskyi_bot_blocker_bans');
         $result = $this->selectBanByIp($ip);
 
         if ($result === null) {
@@ -74,7 +74,7 @@ class BanBadIp implements BanBadIpInterface
     public function selectBanByIp(string $ip): ?array
     {
         $connection = $this->db->getConnection();
-        $table = $connection->getTableName('hryvinskyi_bot_blocker_bans');
+        $table = $this->db->getTableName('hryvinskyi_bot_blocker_bans');
 
         $select = $connection->select()
             ->from($table)
