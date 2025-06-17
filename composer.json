@@ -1,6 +1,6 @@
 {
   "name": "hryvinskyi/magento2-bot-blocker",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "N/A",
   "type": "magento2-module",
   "require": {
