@@ -6,7 +6,7 @@
 
 <schema xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
         xsi:noNamespaceSchemaLocation="urn:magento:framework:Setup/Declaration/Schema/etc/schema.xsd">
-    <table name="hryvinskyi_bot_blocker_data" resource="default" engine="innodb" comment="">
+    <table name="hryvinskyi_bot_blocker_data" resource="default" engine="innodb" comment="Bot blocker data">
         <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Primary key"/>
         <column xsi:type="varbinary" name="ip" length="16" nullable="false" comment="Binary IP"/>
         <column xsi:type="int" name="request_count" padding="10" unsigned="true" nullable="false" identity="false" comment="Request Count"/>
@@ -20,7 +20,7 @@
             <column name="ip"/>
         </index>
     </table>
-    <table name="hryvinskyi_bot_blocker_bans" resource="default" engine="innodb" comment="">
+    <table name="hryvinskyi_bot_blocker_bans" resource="default" engine="innodb" comment="Bot blocker bans">
         <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Primary key"/>
         <column xsi:type="varbinary" name="ip" length="16" nullable="false" comment="Binary IP"/>
         <column xsi:type="int" name="bans_count" padding="10" unsigned="true" nullable="false" identity="false" comment="Ban Count"/>
