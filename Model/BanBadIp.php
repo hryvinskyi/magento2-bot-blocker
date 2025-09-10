@@ -36,7 +36,7 @@ class BanBadIp implements BanBadIpInterface
                 'ip' => $this->ipStorage->pack($ip),
                 'bans_count' => 1,
                 'ban_expiration' => time() + $banTime,
-                'user_agent' => $_SERVER['HTTP_USER_AGENT']
+                'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? 'N/A'
             ];
 
             $connection->insert($table, $data);
@@ -45,7 +45,7 @@ class BanBadIp implements BanBadIpInterface
                 'ip' => $this->ipStorage->pack($ip),
                 'ban_expiration' => time() + ($result['bans_count'] * $banTime),
                 'bans_count' => $result['bans_count'] + 1,
-                'user_agent' => $_SERVER['HTTP_USER_AGENT']
+                'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? 'N/A'
             ];
 
             $where = ['ip = ?' => new Expression('INET6_ATON(\'' . $ip . '\')')];
