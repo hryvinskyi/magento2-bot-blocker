@@ -1,5 +1,9 @@
 # Hryvinskyi_BotBlocker Module
 
+[![Latest Stable Version](https://poser.pugx.org/hryvinskyi/magento2-bot-blocker/v/stable)](https://packagist.org/packages/hryvinskyi/magento2-bot-blocker)
+[![Total Downloads](https://poser.pugx.org/hryvinskyi/magento2-bot-blocker/downloads)](https://packagist.org/packages/hryvinskyi/magento2-bot-blocker)
+[![License](https://poser.pugx.org/hryvinskyi/magento2-bot-blocker/license)](https://packagist.org/packages/hryvinskyi/magento2-bot-blocker)
+
 ## Overview
 
 The Hryvinskyi_BotBlocker module is designed to enhance your Magento 2 store's security by tracking and blocking IP addresses that exceed a specified request limit within a defined timeframe. This module allows you to configure the blocking threshold, timeframe, and a whitelist of IP addresses.
