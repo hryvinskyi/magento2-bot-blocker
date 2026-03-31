@@ -30,6 +30,18 @@
                     <item name="object" xsi:type="object">Hryvinskyi\BotBlocker\Model\Validator\IsBannedValidator</item>
                     <item name="sortOrder" xsi:type="string">100</item>
                 </item>
+                <item name="no_route_threshold" xsi:type="array">
+                    <item name="object" xsi:type="object">Hryvinskyi\BotBlocker\Model\Validator\NoRouteThresholdValidator</item>
+                    <item name="sortOrder" xsi:type="string">130</item>
+                </item>
+                <item name="search_page_threshold" xsi:type="array">
+                    <item name="object" xsi:type="object">Hryvinskyi\BotBlocker\Model\Validator\SearchPageThresholdValidator</item>
+                    <item name="sortOrder" xsi:type="string">140</item>
+                </item>
+                <item name="filter_page_threshold" xsi:type="array">
+                    <item name="object" xsi:type="object">Hryvinskyi\BotBlocker\Model\Validator\FilterPageThresholdValidator</item>
+                    <item name="sortOrder" xsi:type="string">150</item>
+                </item>
                 <item name="threshold" xsi:type="array">
                     <item name="object" xsi:type="object">Hryvinskyi\BotBlocker\Model\Validator\ThresholdValidator</item>
                     <item name="sortOrder" xsi:type="string">200</item>
@@ -44,6 +56,24 @@
                 <item name="mysql" xsi:type="object">Hryvinskyi\BotBlocker\Model\HandleStorage\MySQL</item>
                 <item name="redis" xsi:type="object">Hryvinskyi\BotBlocker\Model\HandleStorage\Redis</item>
             </argument>
+        </arguments>
+    </type>
+    <type name="Hryvinskyi\BotBlocker\Model\Validator\NoRouteThresholdValidator">
+        <arguments>
+            <argument name="serializer" xsi:type="object">Magento\Framework\Serialize\Serializer\Serialize</argument>
+            <argument name="detector" xsi:type="object">Hryvinskyi\BotBlocker\Model\RestrictedPageDetector\NoRouteDetector</argument>
+        </arguments>
+    </type>
+    <type name="Hryvinskyi\BotBlocker\Model\Validator\SearchPageThresholdValidator">
+        <arguments>
+            <argument name="serializer" xsi:type="object">Magento\Framework\Serialize\Serializer\Serialize</argument>
+            <argument name="detector" xsi:type="object">Hryvinskyi\BotBlocker\Model\RestrictedPageDetector\SearchPageDetector</argument>
+        </arguments>
+    </type>
+    <type name="Hryvinskyi\BotBlocker\Model\Validator\FilterPageThresholdValidator">
+        <arguments>
+            <argument name="serializer" xsi:type="object">Magento\Framework\Serialize\Serializer\Serialize</argument>
+            <argument name="detector" xsi:type="object">Hryvinskyi\BotBlocker\Model\RestrictedPageDetector\FilterPageDetector</argument>
         </arguments>
     </type>
     <type name="Hryvinskyi\BotBlocker\Model\HandleStorage\Redis">

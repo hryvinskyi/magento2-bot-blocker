@@ -56,4 +56,88 @@ interface ConfigInterface
      * @return array The whitelist.
      */
     public function getWhitelist(): array;
+
+    /**
+     * Check if 404 (no route) page rate limiting is enabled.
+     *
+     * @return bool
+     */
+    public function isNoRouteRateLimitEnabled(): bool;
+
+    /**
+     * Get the request threshold for 404 (no route) pages.
+     *
+     * @return int
+     */
+    public function getNoRouteThreshold(): int;
+
+    /**
+     * Get the timeframe for 404 (no route) page rate limiting.
+     *
+     * @return int The time window in seconds.
+     */
+    public function getNoRouteTimeframe(): int;
+
+    /**
+     * Get the block time for 404 (no route) pages.
+     *
+     * @return int The ban duration in seconds.
+     */
+    public function getNoRouteBlockTime(): int;
+
+    /**
+     * Check if search page rate limiting is enabled.
+     *
+     * @return bool
+     */
+    public function isSearchPageRateLimitEnabled(): bool;
+
+    /**
+     * Get the request threshold for search pages.
+     *
+     * @return int
+     */
+    public function getSearchPageThreshold(): int;
+
+    /**
+     * Get the timeframe for search page rate limiting.
+     *
+     * @return int The time window in seconds.
+     */
+    public function getSearchPageTimeframe(): int;
+
+    /**
+     * Get the block time for search pages.
+     *
+     * @return int The ban duration in seconds.
+     */
+    public function getSearchPageBlockTime(): int;
+
+    /**
+     * Check if filter page rate limiting is enabled.
+     *
+     * @return bool
+     */
+    public function isFilterPageRateLimitEnabled(): bool;
+
+    /**
+     * Get the request threshold for filter pages.
+     *
+     * @return int
+     */
+    public function getFilterPageThreshold(): int;
+
+    /**
+     * Get the timeframe for filter page rate limiting.
+     *
+     * @return int The time window in seconds.
+     */
+    public function getFilterPageTimeframe(): int;
+
+    /**
+     * Get the block time for filter pages.
+     *
+     * @return int The ban duration in seconds.
+     */
+    public function getFilterPageBlockTime(): int;
 }

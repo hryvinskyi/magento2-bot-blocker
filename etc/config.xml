@@ -16,6 +16,24 @@
                 <storage_method>redis</storage_method>
                 <whitelist>192.168.1.1,192.168.1.2</whitelist>
             </general>
+            <no_route_page>
+                <enabled>1</enabled>
+                <threshold>30</threshold>
+                <timeframe>300</timeframe>
+                <block_time>600</block_time>
+            </no_route_page>
+            <search_page>
+                <enabled>1</enabled>
+                <threshold>100</threshold>
+                <timeframe>300</timeframe>
+                <block_time>900</block_time>
+            </search_page>
+            <filter_page>
+                <enabled>1</enabled>
+                <threshold>100</threshold>
+                <timeframe>300</timeframe>
+                <block_time>900</block_time>
+            </filter_page>
         </hryvinskyi_bot_blocker>
     </default>
 </config>

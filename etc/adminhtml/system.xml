@@ -46,6 +46,93 @@
                     <comment>Specify a list of IP addresses that should be exempt from the blocking rules (comma-separated).</comment>
                 </field>
             </group>
+            <group id="no_route_page" translate="label,comment" type="text" sortOrder="50" showInDefault="1">
+                <label>404 (No Route) Page Rate Limiting</label>
+                <comment>Apply stricter rate limits to 404/not-found pages to protect against aggressive crawling of non-existent URLs.</comment>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="threshold" translate="label,comment" type="text" sortOrder="20" showInDefault="1">
+                    <label>Threshold</label>
+                    <comment>Maximum 404-page requests an IP can make within the timeframe before being blocked.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="timeframe" translate="label,comment" type="text" sortOrder="30" showInDefault="1">
+                    <label>Timeframe</label>
+                    <comment>Time window in seconds for counting 404-page requests.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="block_time" translate="label,comment" type="text" sortOrder="40" showInDefault="1">
+                    <label>Block Time</label>
+                    <comment>Duration in seconds to block an IP after exceeding the 404-page threshold.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="search_page" translate="label,comment" type="text" sortOrder="60" showInDefault="1">
+                <label>Search Page Rate Limiting</label>
+                <comment>Apply stricter rate limits to catalog search result pages to protect against search abuse.</comment>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="threshold" translate="label,comment" type="text" sortOrder="20" showInDefault="1">
+                    <label>Threshold</label>
+                    <comment>Maximum search-page requests an IP can make within the timeframe before being blocked.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="timeframe" translate="label,comment" type="text" sortOrder="30" showInDefault="1">
+                    <label>Timeframe</label>
+                    <comment>Time window in seconds for counting search-page requests.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="block_time" translate="label,comment" type="text" sortOrder="40" showInDefault="1">
+                    <label>Block Time</label>
+                    <comment>Duration in seconds to block an IP after exceeding the search-page threshold.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
+            <group id="filter_page" translate="label,comment" type="text" sortOrder="70" showInDefault="1">
+                <label>Filter Page Rate Limiting</label>
+                <comment>Apply stricter rate limits to filtered category pages (layered navigation) to protect against aggressive filter crawling.</comment>
+                <field id="enabled" translate="label" type="select" sortOrder="10" showInDefault="1">
+                    <label>Enabled</label>
+                    <source_model>Magento\Config\Model\Config\Source\Yesno</source_model>
+                </field>
+                <field id="threshold" translate="label,comment" type="text" sortOrder="20" showInDefault="1">
+                    <label>Threshold</label>
+                    <comment>Maximum filter-page requests an IP can make within the timeframe before being blocked.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="timeframe" translate="label,comment" type="text" sortOrder="30" showInDefault="1">
+                    <label>Timeframe</label>
+                    <comment>Time window in seconds for counting filter-page requests.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+                <field id="block_time" translate="label,comment" type="text" sortOrder="40" showInDefault="1">
+                    <label>Block Time</label>
+                    <comment>Duration in seconds to block an IP after exceeding the filter-page threshold.</comment>
+                    <depends>
+                        <field id="enabled">1</field>
+                    </depends>
+                </field>
+            </group>
         </section>
     </system>
 </config>
