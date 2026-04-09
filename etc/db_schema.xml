@@ -9,15 +9,17 @@
     <table name="hryvinskyi_bot_blocker_data" resource="default" engine="innodb" comment="Bot Blocker Data">
         <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Primary key"/>
         <column xsi:type="varbinary" name="ip" length="16" nullable="false" comment="Binary IP"/>
+        <column xsi:type="varchar" name="page_type" length="32" nullable="false" default="general" comment="Page Type"/>
         <column xsi:type="int" name="request_count" padding="10" unsigned="true" nullable="false" identity="false" comment="Request Count"/>
         <column xsi:type="int" name="first_request_time" padding="10" unsigned="true" nullable="false" identity="false" comment="First Request Time"/>
         <column xsi:type="datetime" name="updated_at" on_update="true" nullable="true" default="CURRENT_TIMESTAMP" comment="Update time"/>
-        
+
         <index referenceId="PRIMARY" indexType="btree">
             <column name="id"/>
         </index>
-        <index referenceId="HRYVINSKYI_BOT_BLOCKER_DATA_IP" indexType="btree">
+        <index referenceId="HRYVINSKYI_BOT_BLOCKER_DATA_IP_PAGE_TYPE" indexType="btree">
             <column name="ip"/>
+            <column name="page_type"/>
         </index>
     </table>
     <table name="hryvinskyi_bot_blocker_bans" resource="default" engine="innodb" comment="Bot Blocker Bans">

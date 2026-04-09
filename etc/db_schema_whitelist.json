@@ -3,13 +3,15 @@
     "column": {
       "id": true,
       "ip": true,
+      "page_type": true,
       "request_count": true,
       "first_request_time": true,
       "updated_at": true
     },
     "index": {
       "HRYVINSKYI_BOT_BLOCKER_DATA_ID": true,
-      "HRYVINSKYI_BOT_BLOCKER_DATA_IP": true
+      "HRYVINSKYI_BOT_BLOCKER_DATA_IP": true,
+      "HRYVINSKYI_BOT_BLOCKER_DATA_IP_PAGE_TYPE": true
     },
     "constraint": {
       "PRIMARY": true

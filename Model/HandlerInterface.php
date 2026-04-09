@@ -14,8 +14,9 @@ interface HandlerInterface
      * @param string $ip The IP address to save.
      * @param int $threshold The threshold of requests.
      * @param int $timeframe The timeframe in seconds.
+     * @param string $type The page type identifier (e.g. 'general', 'no_route', 'search_page', 'filter_page').
      *
      * @return int The number of requests from the IP address.
      */
-    public function execute(string $ip, int $threshold, int $timeframe): int;
+    public function execute(string $ip, int $threshold, int $timeframe, string $type = 'general'): int;
 }

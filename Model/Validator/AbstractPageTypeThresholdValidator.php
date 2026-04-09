@@ -10,35 +10,32 @@ namespace Hryvinskyi\BotBlocker\Model\Validator;
 
 use Hryvinskyi\BotBlocker\Api\RestrictedPageDetectorInterface;
 use Hryvinskyi\BotBlocker\Model\BanBadIpInterface;
-use Magento\Framework\App\CacheInterface;
-use Magento\Framework\Serialize\SerializerInterface;
+use Hryvinskyi\BotBlocker\Model\ConfigInterface;
+use Hryvinskyi\BotBlocker\Model\HandleStorage;
 
 /**
  * Base class for page-type-specific rate limiting validators.
- * Provides shared request tracking logic via Redis-backed cache.
+ * Uses the configured storage method (MySQL/Redis) via HandleStorage.
  */
 abstract class AbstractPageTypeThresholdValidator implements ValidatorInterface
 {
-    private const CACHE_KEY_PREFIX = 'bb_rp_';
-    private const CACHE_TAG = 'bb_restricted_page';
-
     private readonly BanBadIpInterface $banBadIp;
-    private readonly CacheInterface $cache;
-    private readonly SerializerInterface $serializer;
+    private readonly ConfigInterface $config;
+    private readonly HandleStorage $handleStorage;
 
     /**
      * @param BanBadIpInterface $banBadIp
-     * @param CacheInterface $cache
-     * @param SerializerInterface $serializer
+     * @param ConfigInterface $config
+     * @param HandleStorage $handleStorage
      */
     public function __construct(
         BanBadIpInterface $banBadIp,
-        CacheInterface $cache,
-        SerializerInterface $serializer
+        ConfigInterface $config,
+        HandleStorage $handleStorage
     ) {
         $this->banBadIp = $banBadIp;
-        $this->cache = $cache;
-        $this->serializer = $serializer;
+        $this->config = $config;
+        $this->handleStorage = $handleStorage;
     }
 
     /**
@@ -70,7 +67,7 @@ abstract class AbstractPageTypeThresholdValidator implements ValidatorInterface
     abstract protected function getBlockTime(): int;
 
     /**
-     * Get the unique key identifying this page type (used in cache keys).
+     * Get the unique key identifying this page type (used in storage keys).
      *
      * @return string
      */
@@ -98,8 +95,9 @@ abstract class AbstractPageTypeThresholdValidator implements ValidatorInterface
 
         $threshold = $this->getThreshold();
         $timeframe = $this->getTimeframe();
+        $storageMethod = $this->config->getStorageMethod();
 
-        $count = $this->trackRequest($ipAddress, $timeframe);
+        $count = $this->handleStorage->execute($storageMethod, $ipAddress, $threshold, $timeframe, $this->getTypeKey());
 
         if ($count > $threshold) {
             $this->banBadIp->banIp($ipAddress, $this->getBlockTime());
@@ -107,45 +105,5 @@ abstract class AbstractPageTypeThresholdValidator implements ValidatorInterface
         }
 
         return false;
-    }
-
-    /**
-     * Track request count for this page type and IP.
-     *
-     * @param string $ipAddress The IP address to track.
-     * @param int $timeframe The time window in seconds.
-     *
-     * @return int Current request count within the timeframe.
-     */
-    private function trackRequest(string $ipAddress, int $timeframe): int
-    {
-        $key = self::CACHE_KEY_PREFIX . $this->getTypeKey() . '_' . md5($ipAddress);
-        $rawData = $this->cache->load($key);
-
-        if ($rawData) {
-            $data = $this->serializer->unserialize($rawData);
-        } else {
-            $data = [
-                'count' => 0,
-                'first_request_time' => time(),
-            ];
-        }
-
-        $data['count']++;
-
-        $elapsedTime = time() - $data['first_request_time'];
-        if ($elapsedTime > $timeframe) {
-            $data['count'] = 1;
-            $data['first_request_time'] = time();
-        }
-
-        $this->cache->save(
-            $this->serializer->serialize($data),
-            $key,
-            [self::CACHE_TAG],
-            $timeframe
-        );
-
-        return (int)$data['count'];
     }
 }

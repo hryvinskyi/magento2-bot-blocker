@@ -40,11 +40,12 @@ class HandleStorage
      * @param string $ip The IP address to apply the method on.
      * @param int $threshold The threshold value to be used by the method.
      * @param int $timeframe The timeframe value to be used by the method.
+     * @param string $type The page type identifier.
      *
      * @return int The result of executing the method on the handler.
      */
-    public function execute(string $method, string $ip, int $threshold, int $timeframe): int
+    public function execute(string $method, string $ip, int $threshold, int $timeframe, string $type = 'general'): int
     {
-        return $this->getHandler($method)->execute($ip, $threshold, $timeframe);
+        return $this->getHandler($method)->execute($ip, $threshold, $timeframe, $type);
     }
 }

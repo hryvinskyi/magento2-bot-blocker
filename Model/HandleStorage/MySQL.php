@@ -25,7 +25,7 @@ class MySQL implements HandlerInterface
     /**
      * @inheritDoc
      */
-    public function execute(string $ip, int $threshold, int $timeframe): int
+    public function execute(string $ip, int $threshold, int $timeframe, string $type = 'general'): int
     {
         $connection = $this->resourceConnection->getConnection();
         $table = $this->resourceConnection->getTableName('hryvinskyi_bot_blocker_data');
@@ -34,7 +34,8 @@ class MySQL implements HandlerInterface
 
         $select = $connection->select()
             ->from($table)
-            ->where('ip = ?', new Expression('INET6_ATON(\'' . $ip . '\')'));
+            ->where('ip = ?', new Expression('INET6_ATON(\'' . $ip . '\')'))
+            ->where('page_type = ?', $type);
 
         $result = $connection->fetchRow($select);
 
@@ -42,7 +43,8 @@ class MySQL implements HandlerInterface
             $data = [
                 'ip' => $this->ipStorage->pack($ip),
                 'request_count' => 1,
-                'first_request_time' => $now
+                'first_request_time' => $now,
+                'page_type' => $type,
             ];
 
             $connection->insert($table, $data);
@@ -56,7 +58,10 @@ class MySQL implements HandlerInterface
                     'first_request_time' => $now
                 ];
 
-                $where = ['ip = ?' => new Expression('INET6_ATON(\'' . $ip . '\')')];
+                $where = [
+                    'ip = ?' => new Expression('INET6_ATON(\'' . $ip . '\')'),
+                    'page_type = ?' => $type,
+                ];
                 $connection->update($table, $data, $where);
             } else {
                 // Increment the count
@@ -65,7 +70,10 @@ class MySQL implements HandlerInterface
                     'updated_at' => $now,
                 ];
 
-                $where = ['ip = ?' => new Expression('INET6_ATON(\'' . $ip . '\')')];
+                $where = [
+                    'ip = ?' => new Expression('INET6_ATON(\'' . $ip . '\')'),
+                    'page_type = ?' => $type,
+                ];
                 $connection->update($table, $data, $where);
             }
         }

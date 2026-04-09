@@ -60,19 +60,16 @@
     </type>
     <type name="Hryvinskyi\BotBlocker\Model\Validator\NoRouteThresholdValidator">
         <arguments>
-            <argument name="serializer" xsi:type="object">Magento\Framework\Serialize\Serializer\Serialize</argument>
             <argument name="detector" xsi:type="object">Hryvinskyi\BotBlocker\Model\RestrictedPageDetector\NoRouteDetector</argument>
         </arguments>
     </type>
     <type name="Hryvinskyi\BotBlocker\Model\Validator\SearchPageThresholdValidator">
         <arguments>
-            <argument name="serializer" xsi:type="object">Magento\Framework\Serialize\Serializer\Serialize</argument>
             <argument name="detector" xsi:type="object">Hryvinskyi\BotBlocker\Model\RestrictedPageDetector\SearchPageDetector</argument>
         </arguments>
     </type>
     <type name="Hryvinskyi\BotBlocker\Model\Validator\FilterPageThresholdValidator">
         <arguments>
-            <argument name="serializer" xsi:type="object">Magento\Framework\Serialize\Serializer\Serialize</argument>
             <argument name="detector" xsi:type="object">Hryvinskyi\BotBlocker\Model\RestrictedPageDetector\FilterPageDetector</argument>
         </arguments>
     </type>

@@ -26,9 +26,9 @@ class Redis implements HandlerInterface
     /**
      * @inheritDoc
      */
-    public function execute(string $ip, int $threshold, int $timeframe): int
+    public function execute(string $ip, int $threshold, int $timeframe, string $type = 'general'): int
     {
-        $key = 'ip_' . md5($ip);
+        $key = 'ip_' . $type . '_' . md5($ip);
         $data = $this->cache->load($key);
 
         if ($data) {

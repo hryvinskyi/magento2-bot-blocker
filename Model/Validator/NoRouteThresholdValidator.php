@@ -11,8 +11,7 @@ namespace Hryvinskyi\BotBlocker\Model\Validator;
 use Hryvinskyi\BotBlocker\Api\RestrictedPageDetectorInterface;
 use Hryvinskyi\BotBlocker\Model\BanBadIpInterface;
 use Hryvinskyi\BotBlocker\Model\ConfigInterface;
-use Magento\Framework\App\CacheInterface;
-use Magento\Framework\Serialize\SerializerInterface;
+use Hryvinskyi\BotBlocker\Model\HandleStorage;
 
 /**
  * Rate limiting validator for 404 (no route) pages.
@@ -24,19 +23,17 @@ class NoRouteThresholdValidator extends AbstractPageTypeThresholdValidator
 
     /**
      * @param BanBadIpInterface $banBadIp
-     * @param CacheInterface $cache
-     * @param SerializerInterface $serializer
      * @param ConfigInterface $config
+     * @param HandleStorage $handleStorage
      * @param RestrictedPageDetectorInterface $detector
      */
     public function __construct(
         BanBadIpInterface $banBadIp,
-        CacheInterface $cache,
-        SerializerInterface $serializer,
         ConfigInterface $config,
+        HandleStorage $handleStorage,
         RestrictedPageDetectorInterface $detector
     ) {
-        parent::__construct($banBadIp, $cache, $serializer);
+        parent::__construct($banBadIp, $config, $handleStorage);
         $this->config = $config;
         $this->detector = $detector;
     }
