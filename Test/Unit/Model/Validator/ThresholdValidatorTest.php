@@ -48,7 +48,8 @@ class ThresholdValidatorTest extends TestCase
     public function testValidateNegative()
     {
         $_SERVER['HTTP_USER_AGENT'] = 'testUserAgent';
-        $this->config->expects($this->once())->method('getThreshold')->willReturn(5);
+        // The user agent matches an override, so the global threshold is never consulted.
+        $this->config->expects($this->never())->method('getThreshold');
         $this->config->expects($this->once())->method('getUserAgentOverride')->willReturn([
             [
                 'user_agent' => 'testUserAgent',
