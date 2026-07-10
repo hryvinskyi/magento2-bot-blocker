@@ -10,8 +10,7 @@
     },
     "index": {
       "HRYVINSKYI_BOT_BLOCKER_DATA_ID": true,
-      "HRYVINSKYI_BOT_BLOCKER_DATA_IP": true,
-      "HRYVINSKYI_BOT_BLOCKER_DATA_IP_PAGE_TYPE": true
+      "HRYVINSKYI_BOT_BLOCKER_DATA_IP": true
     },
     "constraint": {
       "PRIMARY": true
@@ -26,8 +25,7 @@
       "user_agent": true
     },
     "index": {
-      "HRYVINSKYI_BOT_BLOCKER_BANS_ID": true,
-      "HRYVINSKYI_BOT_BLOCKER_BANS_IP": true
+      "HRYVINSKYI_BOT_BLOCKER_BANS_ID": true
     },
     "constraint": {
       "PRIMARY": true

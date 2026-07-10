@@ -32,52 +32,35 @@ class MySQL implements HandlerInterface
 
         $now = time();
 
-        $select = $connection->select()
-            ->from($table)
-            ->where('ip = ?', new Expression('INET6_ATON(\'' . $ip . '\')'))
-            ->where('page_type = ?', $type);
-
-        $result = $connection->fetchRow($select);
-
-        if ($result === false) {
-            $data = [
+        // A select followed by an insert lets two concurrent requests from the same IP both miss the
+        // row and both insert one, which splits the counter and keeps the threshold out of reach.
+        // The unique key on (ip, page_type) turns this into a single atomic upsert.
+        // MySQL applies ON DUPLICATE KEY UPDATE assignments left to right, so request_count is still
+        // computed against the previous first_request_time that the next assignment overwrites.
+        // updated_at is left out on purpose: the column carries ON UPDATE CURRENT_TIMESTAMP.
+        $connection->insertOnDuplicate(
+            $table,
+            [
                 'ip' => $this->ipStorage->pack($ip),
+                'page_type' => $type,
                 'request_count' => 1,
                 'first_request_time' => $now,
-                'page_type' => $type,
-            ];
+            ],
+            [
+                'request_count' => new Expression(
+                    sprintf('IF(%d - first_request_time > %d, 1, request_count + 1)', $now, $timeframe)
+                ),
+                'first_request_time' => new Expression(
+                    sprintf('IF(%d - first_request_time > %d, %d, first_request_time)', $now, $timeframe, $now)
+                ),
+            ]
+        );
 
-            $connection->insert($table, $data);
-        } else {
-            $elapsedTime = $now - $result['first_request_time'];
+        $select = $connection->select()
+            ->from($table, 'request_count')
+            ->where('ip = INET6_ATON(?)', $ip)
+            ->where('page_type = ?', $type);
 
-            if ($elapsedTime > $timeframe) {
-                // Reset the count and update the first request time
-                $data = [
-                    'request_count' => 1,
-                    'first_request_time' => $now
-                ];
-
-                $where = [
-                    'ip = ?' => new Expression('INET6_ATON(\'' . $ip . '\')'),
-                    'page_type = ?' => $type,
-                ];
-                $connection->update($table, $data, $where);
-            } else {
-                // Increment the count
-                $data = [
-                    'request_count' => $result['request_count'] + 1,
-                    'updated_at' => $now,
-                ];
-
-                $where = [
-                    'ip = ?' => new Expression('INET6_ATON(\'' . $ip . '\')'),
-                    'page_type = ?' => $type,
-                ];
-                $connection->update($table, $data, $where);
-            }
-        }
-
-        return (int)$data['request_count'];
+        return (int)$connection->fetchOne($select);
     }
 }

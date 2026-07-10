@@ -29,28 +29,26 @@ class BanBadIp implements BanBadIpInterface
     {
         $connection = $this->db->getConnection();
         $table = $this->db->getTableName('hryvinskyi_bot_blocker_bans');
-        $result = $this->selectBanByIp($ip);
+        $now = time();
 
-        if ($result === null) {
-            $data = [
+        // The unique key on ip makes this a single atomic upsert; the previous select-then-write raced
+        // with itself and left duplicate ban rows under exactly the traffic this module exists to stop.
+        // ban_expiration is assigned before bans_count so that MySQL, applying the assignments left to
+        // right, still sees the previous ban count and each repeat ban lasts proportionally longer.
+        $connection->insertOnDuplicate(
+            $table,
+            [
                 'ip' => $this->ipStorage->pack($ip),
                 'bans_count' => 1,
-                'ban_expiration' => time() + $banTime,
+                'ban_expiration' => $now + $banTime,
                 'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? 'N/A'
-            ];
-
-            $connection->insert($table, $data);
-        } else {
-            $data = [
-                'ip' => $this->ipStorage->pack($ip),
-                'ban_expiration' => time() + ($result['bans_count'] * $banTime),
-                'bans_count' => $result['bans_count'] + 1,
-                'user_agent' => $_SERVER['HTTP_USER_AGENT'] ?? 'N/A'
-            ];
-
-            $where = ['ip = ?' => new Expression('INET6_ATON(\'' . $ip . '\')')];
-            $connection->update($table, $data, $where);
-        }
+            ],
+            [
+                'ban_expiration' => new Expression(sprintf('%d + bans_count * %d', $now, $banTime)),
+                'bans_count' => new Expression('bans_count + 1'),
+                'user_agent',
+            ]
+        );
     }
 
     /**
@@ -78,7 +76,7 @@ class BanBadIp implements BanBadIpInterface
 
         $select = $connection->select()
             ->from($table)
-            ->where('ip = ?', new Expression('INET6_ATON(\'' . $ip . '\')'));
+            ->where('ip = INET6_ATON(?)', $ip);
 
         $result = $connection->fetchRow($select);
 

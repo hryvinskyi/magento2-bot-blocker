@@ -17,10 +17,13 @@
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="id"/>
         </constraint>
-        <index referenceId="HRYVINSKYI_BOT_BLOCKER_DATA_IP_PAGE_TYPE" indexType="btree">
-            <column name="ip"/>
-            <column name="page_type"/>
-        </index>
+        <!--
+            The unique key on (ip, page_type) is created by
+            Hryvinskyi\BotBlocker\Setup\Patch\Schema\ConvertIpIndexesToUnique instead of being declared
+            here. Declarative schema is applied before any patch runs (Installer::installSchema), so
+            ADD UNIQUE would abort with a duplicate-key error on installations that still hold the very
+            duplicate rows the unique key exists to prevent.
+        -->
     </table>
     <table name="hryvinskyi_bot_blocker_bans" resource="default" engine="innodb" comment="Bot Blocker Bans">
         <column xsi:type="int" name="id" padding="10" unsigned="true" nullable="false" identity="true" comment="Primary key"/>
@@ -32,8 +35,6 @@
         <constraint xsi:type="primary" referenceId="PRIMARY">
             <column name="id"/>
         </constraint>
-        <index referenceId="HRYVINSKYI_BOT_BLOCKER_BANS_IP" indexType="btree">
-            <column name="ip"/>
-        </index>
+        <!-- The unique key on (ip) is created by the same patch, for the same reason. -->
     </table>
 </schema>
