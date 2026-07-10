@@ -12,8 +12,6 @@
                 type="Hryvinskyi\BotBlocker\Model\IpStorage"/>
     <preference for="Hryvinskyi\BotBlocker\Model\BanBadIpInterface"
                 type="Hryvinskyi\BotBlocker\Model\BanBadIp"/>
-    <preference for="Hryvinskyi\BotBlocker\Api\PreBootstrapConfigExporterInterface"
-                type="Hryvinskyi\BotBlocker\Model\PreBootstrapConfigExporter"/>
 
     <type name="Hryvinskyi\BotBlocker\Model\Config">
         <arguments>
